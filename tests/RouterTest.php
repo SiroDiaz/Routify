@@ -55,11 +55,16 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         $this->router->clear();
         $this->router->setPath('/any-unexisting-route/asd');
         $this->assertSame($this->router->run(), null);
+    }
 
+    public function testNotFound() {
         $this->router->setRequestMethod("GET");
         $this->router->setPath('/5');
-        $this->router->get('/:id', function($id) { return $id; });
-        $this->assertSame($this->router->run(), 5);
+        $this->router->notFound(function() {
+            return "404";
+        });
+
+        $this->assertSame($this->router->run(), '404');
     }
 
 }

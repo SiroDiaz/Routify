@@ -4,16 +4,30 @@ namespace SimpleRouter;
 
 
 class Router {
+
     /**
-     * @var array The list of routes that contains the callback function and the request method
+     * @var array The list of routes that contains the callback function and the request method.
      */
     private $routes;
+
     /**
-     * @var string The before middleware route patterns and their handling functions
+     * @var string The path requested for the client(browser, cli, app...).
      */
     private $path;
+
+    /**
+     * @var string The requested method(GET, POST, PUT, DELETE) used by the client.
+     */
     private $requestMethod;
+
+    /**
+     * @var object The instance of the router parser.
+     */
     private $routerParser;
+
+    /**
+     * @var callable The action to be executed if the any route doesn't match
+     */
     private $notFound;
 
     public function __construct() {
@@ -23,6 +37,8 @@ class Router {
             rawurldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) : '/';
         $this->routerParser = new RouterParser($this->path);
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        $this->notFound = function() {};
     }
 
     private function addOrder($uri, $method, $response) {
@@ -35,6 +51,8 @@ class Router {
     }
 
     /**
+     * Returns the path.
+     *
      * @return string
      */
 
@@ -43,6 +61,8 @@ class Router {
     }
 
     /**
+     * Returns the array of routes.
+     *
      * @return array
      */
 
@@ -51,6 +71,8 @@ class Router {
     }
 
     /**
+     * Return the request method used by the client.
+     *
      * @return string
      */
 
@@ -59,6 +81,8 @@ class Router {
     }
 
     /**
+     * Sets the path. Don't use it in production. Only for tests.
+     *
      * @param $path
      */
 
@@ -67,6 +91,8 @@ class Router {
     }
 
     /**
+     * Set the request method. Used in tests or development.
+     *
      * @param $method
      */
 
@@ -98,6 +124,10 @@ class Router {
 
         return $found;
     }
+
+    /**
+     * Clear the array of orders(routes) registered.
+     */
 
     public function clear() {
         $this->routes = [];
@@ -139,6 +169,10 @@ class Router {
         $this->addOrder($uri, Method::POST, $response);
     }
 
+    /**
+     * @param $func
+     */
+
     public function notFound($func) {
         $this->notFound = $func;
     }
@@ -161,8 +195,8 @@ class Router {
         if($found) {
             $params = $this->routerParser->getParams($this->routes[$counter]->getUri());
             return call_user_func_array($this->routes[$counter]->getResponse(), $params);
+        } else {
+            return call_user_func($this->notFound);
         }
-
-        return null;
     }
 }
