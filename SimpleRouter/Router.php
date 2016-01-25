@@ -99,17 +99,41 @@ class Router {
         return $found;
     }
 
+    public function clear() {
+        $this->routes = [];
+    }
+
+    /**
+     * @param $uri
+     * @param $response
+     */
+
     public function get($uri, $response) {
         $this->addOrder($uri, Method::GET, $response);
     }
+
+    /**
+     * @param $uri
+     * @param $response
+     */
 
     public function post($uri, $response) {
         $this->addOrder($uri, Method::POST, $response);
     }
 
+    /**
+     * @param $uri
+     * @param $response
+     */
+
     public function put($uri, $response) {
         $this->addOrder($uri, Method::POST, $response);
     }
+
+    /**
+     * @param $uri
+     * @param $response
+     */
 
     public function delete($uri, $response) {
         $this->addOrder($uri, Method::POST, $response);
@@ -118,6 +142,10 @@ class Router {
     public function notFound($func) {
         $this->notFound = $func;
     }
+
+    /**
+     * @return mixed|null
+     */
 
     public function run() {
         $found = false;
@@ -135,6 +163,6 @@ class Router {
             return call_user_func_array($this->routes[$counter]->getResponse(), $params);
         }
 
-        return 'ok, this works';
+        return null;
     }
 }
