@@ -2,7 +2,6 @@
 
 A simple PHP router inspired in Express framework.
 
-----------
 
 SimpleRouter is a fast and flexible router for PHP 5.4 and higher.
 
@@ -39,7 +38,7 @@ $router->put('/', function() {
 	// something for the PUT /
 });
 
-$router->post('/:id', function($id) {
+$router->delete('/:id', function($id) {
 	// something for the DELETE /:id
 });
 
