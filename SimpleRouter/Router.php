@@ -41,15 +41,6 @@ class Router {
         $this->notFound = function() {};
     }
 
-    private function addOrder($uri, $method, $response) {
-        if($this->find($uri, $method)) {
-            return false;
-        }
-
-        $totalRoutes = count($this->routes);
-        $this->routes[$totalRoutes] = new Order($uri, $method, $response);
-    }
-
     /**
      * Returns the path.
      *
@@ -101,9 +92,12 @@ class Router {
     }
 
     /**
-     * @param $uri
-     * @param $method
-     * @return bool
+     * Searchs in the array of routes the route that matches(same URI
+     * and request method).
+     *
+     * @param $uri string
+     * @param $method string The request method
+     * @return bool true if exist a result
      */
 
     public function find($uri, $method) {
@@ -126,6 +120,24 @@ class Router {
     }
 
     /**
+     * Adds a new route to the routes array.
+     *
+     * @param $uri
+     * @param $method
+     * @param $response
+     * @return bool false if the route has not been added.
+     */
+
+    private function addOrder($uri, $method, $response) {
+        if($this->find($uri, $method)) {    // search if exists an apparition
+            return false;
+        }
+
+        $totalRoutes = count($this->routes);
+        $this->routes[$totalRoutes] = new Order($uri, $method, $response);
+    }
+
+    /**
      * Clear the array of orders(routes) registered.
      */
 
@@ -134,6 +146,8 @@ class Router {
     }
 
     /**
+     * Register the GET request.
+     *
      * @param $uri
      * @param $response
      */
@@ -143,6 +157,8 @@ class Router {
     }
 
     /**
+     * Register the POST request.
+     *
      * @param $uri
      * @param $response
      */
@@ -152,6 +168,8 @@ class Router {
     }
 
     /**
+     * Register the PUT request.
+     *
      * @param $uri
      * @param $response
      */
@@ -161,6 +179,8 @@ class Router {
     }
 
     /**
+     * Register the DELETE request.
+     *
      * @param $uri
      * @param $response
      */
@@ -170,15 +190,25 @@ class Router {
     }
 
     /**
-     * @param $func
+     * Sets a callback for the notFound event.
+     *
+     * @param $func callable
      */
 
     public function notFound($func) {
-        $this->notFound = $func;
+        if(is_callable($func)) {
+            $this->notFound = $func;
+        }
     }
 
     /**
-     * @return mixed|null
+     * Initialize the router app and start to run
+     * over the array of routes for any appearance.
+     * If there is a result then call the callback associate.
+     * If there is not a result it will execute the notFound
+     * action.
+     *
+     * @return mixed The result of execute the callback.
      */
 
     public function run() {
