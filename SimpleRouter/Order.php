@@ -4,8 +4,20 @@ namespace SimpleRouter;
 
 
 class Order {
+
+    /**
+     * @var string The path pattern.
+     */
     private $uri;
+
+    /**
+     * @var callable The callback response.
+     */
     private $response;
+
+    /**
+     * @var string The request method for the path pattern.
+     */
     private $method;
 
     public function __construct($uri, $method, $response) {
@@ -15,6 +27,8 @@ class Order {
     }
 
     /**
+     * Returns the uri(the pattern path).
+     *
      * @return mixed
      */
 
@@ -23,6 +37,8 @@ class Order {
     }
 
     /**
+     * Returns the request method registered.
+     *
      * @return mixed
      */
 
@@ -31,6 +47,8 @@ class Order {
     }
 
     /**
+     * Returns the callback associated to the pattern.
+     *
      * @return mixed
      */
 
