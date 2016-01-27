@@ -1,5 +1,5 @@
 {
-    "name": "siro/simplerouter",
+    "name": "siro/routify",
     "description": "Simple router based on Express router",
     "license": "MIT",
     "authors": [
