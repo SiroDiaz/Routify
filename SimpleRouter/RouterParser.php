@@ -4,8 +4,20 @@ namespace SimpleRouter;
 
 
 class RouterParser {
+
+    /**
+     * @var string The path requested by the browser(or any client)
+     */
     private $path;
+
+    /**
+     * The delimiter used to separate different paths(e.g mydomain.com/api/v1/user/Siro_Diaz).
+     */
     const DELIMITER = '/';
+
+    /**
+     * The parameter identifier for the path pattern (e.g /api/v1/user/:screen_name).
+     */
     const PARAMETER_IDENTIFIER = ':';
 
     public function __construct($path) {
@@ -13,6 +25,8 @@ class RouterParser {
     }
 
     /**
+     * Sets the path.
+     *
      * @param $path
      */
 
@@ -20,11 +34,20 @@ class RouterParser {
         $this->path = $path;
     }
 
+    /**
+     * Give the requested path.
+     *
+     * @return string
+     */
+
     public function getPath() {
         return $this->path;
     }
 
     /**
+     * Checks if the path pattern has parameters(strings with : at
+     * the beginning).
+     *
      * @param $pattern
      * @return bool
      */
@@ -35,6 +58,8 @@ class RouterParser {
     }
 
     /**
+     * Returns the number of parameters in the path pattern.
+     *
      * @param $pattern
      * @return int
      */
@@ -56,6 +81,10 @@ class RouterParser {
     }
 
     /**
+     * Returns an associative array with the parameter name
+     * and its value. If there is not any parameter in the pattern
+     * then return an empty array.
+     *
      * @param $pattern
      * @return array
      */
@@ -78,6 +107,8 @@ class RouterParser {
     }
 
     /**
+     * Checks if the path pattern matches with the requested uri.
+     *
      * @param $pattern
      * @return bool
      */
@@ -110,4 +141,4 @@ class RouterParser {
         return $found;
     }
 
-} 
+}
