@@ -5,7 +5,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
 
     public function __construct() {
         parent::__construct();
-        $this->order = new SimpleRouter\Order('/', SimpleRouter\Method::GET, function() { return 'ok, this works'; });
+        $this->order = new Routify\Order('/', Routify\Method::GET, function() { return 'ok, this works'; });
     }
 
     public function testGetUri() {

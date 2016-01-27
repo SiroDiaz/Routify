@@ -1,9 +1,9 @@
-# SimpleRouter
+# Routify
 
 A simple PHP router inspired in Express framework.
 
 
-SimpleRouter is a fast and flexible router for PHP 5.4 and higher.
+Routify is a fast and flexible router for PHP 5.4 and higher.
 
 - Flexible regular expression routing (inspired by Express)
 - Concrete use. Focused in do well one thing
@@ -20,7 +20,7 @@ SimpleRouter is a fast and flexible router for PHP 5.4 and higher.
 ```php
 require 'vendor/autoload.php';
 
-$router = new SimpleRouter/Router();
+$router = new Routify/Router();
 
 $router->get('/', function() {
 

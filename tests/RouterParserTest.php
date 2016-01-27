@@ -5,7 +5,7 @@ class RouterParserTest extends PHPUnit_Framework_TestCase {
 
     public function __construct() {
         parent::__construct();
-        $this->routerParser = new SimpleRouter\RouterParser('/api/v1/user/2322132');
+        $this->routerParser = new Routify\RouterParser('/api/v1/user/2322132');
     }
 
     public function testGetPath() {

@@ -8,7 +8,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     public function __construct() {
         parent::__construct();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->router = new SimpleRouter\Router();
+        $this->router = new Routify\Router();
     }
 
     public function testGetPath() {
@@ -27,7 +27,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     public function testFind() {
         $this->router->get('/', function() { return 'ok, this works'; });
-        $this->assertEquals($this->router->find('/', SimpleRouter\Method::GET), true);
+        $this->assertEquals($this->router->find('/', Routify\Method::GET), true);
 
         // testing to retrieve the total of routes registered in the router
         $this->assertEquals(count($this->router->getRoutes()), 1);

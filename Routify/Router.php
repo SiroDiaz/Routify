@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleRouter;
+namespace Routify;
 
 
 class Router {
