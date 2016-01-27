@@ -1,6 +1,8 @@
 {
     "name": "siro/routify",
     "description": "Simple router based on Express router",
+    "type": "library",
+    "keywords": ["library", "router", "http"],
     "license": "MIT",
     "authors": [
         {
