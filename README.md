@@ -12,7 +12,7 @@ Routify is a fast and flexible router for PHP 5.4 and higher.
 ### Getting started
 
 1. PHP 5.4.x is required
-2. Install SimpleRouter using Composer (recommended) or manually
+2. Install Routify using Composer (recommended) or manually
 3. Setup URL rewriting so that all requests are handled by index.php, for example, using an .htaccess file
 
 ### Example
