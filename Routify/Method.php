@@ -8,4 +8,4 @@ abstract class Method {
     const POST = "POST";
     const PUT = "PUT";
     const DELETE = "DELETE";
-} 
+}
