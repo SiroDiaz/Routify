@@ -128,13 +128,13 @@ class Router {
      * @return bool false if the route has not been added.
      */
 
-    private function addOrder($uri, $method, $response) {
+    private function addOrder($uri, $method, $response, array $middleware = []) {
         if($this->find($uri, $method)) {    // search if exists an apparition
             return false;
         }
 
         $totalRoutes = count($this->routes);
-        $this->routes[$totalRoutes] = new Order($uri, $method, $response);
+        $this->routes[$totalRoutes] = new Order($uri, $method, $response, $middleware);
     }
 
     /**
@@ -152,8 +152,8 @@ class Router {
      * @param $response
      */
 
-    public function get($uri, $response) {
-        $this->addOrder($uri, Method::GET, $response);
+    public function get($uri, $response, array $middleware = []) {
+        $this->addOrder($uri, Method::GET, $response, $middleware);
     }
 
     /**
@@ -163,8 +163,8 @@ class Router {
      * @param $response
      */
 
-    public function post($uri, $response) {
-        $this->addOrder($uri, Method::POST, $response);
+    public function post($uri, $response, array $middleware = []) {
+        $this->addOrder($uri, Method::POST, $response, $middleware);
     }
 
     /**
@@ -174,8 +174,8 @@ class Router {
      * @param $response
      */
 
-    public function put($uri, $response) {
-        $this->addOrder($uri, Method::POST, $response);
+    public function put($uri, $response, array $middleware = []) {
+        $this->addOrder($uri, Method::POST, $response, $middleware);
     }
 
     /**
@@ -185,8 +185,8 @@ class Router {
      * @param $response
      */
 
-    public function delete($uri, $response) {
-        $this->addOrder($uri, Method::POST, $response);
+    public function delete($uri, $response, array $middleware = []) {
+        $this->addOrder($uri, Method::POST, $response, $middleware);
     }
 
     /**
@@ -196,8 +196,8 @@ class Router {
      * @param $response
      */
 
-    public function patch($uri, $response) {
-        $this->addOrder($uri, Method::PATCH, $response);
+    public function patch($uri, $response, array $middleware = []) {
+        $this->addOrder($uri, Method::PATCH, $response, $middleware);
     }
 
     /**
