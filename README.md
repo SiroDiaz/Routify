@@ -1,4 +1,6 @@
-# Routify
+Routify
+=======
+[![Build Status](https://travis-ci.org/SiroDiaz/Routify.svg)](https://travis-ci.org/SiroDiaz/Routify)
 
 A simple PHP router inspired in Express framework.
 
