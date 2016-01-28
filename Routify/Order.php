@@ -20,6 +20,9 @@ class Order {
      */
     private $method;
 
+    /**
+     * @var array Contains all middlewares associate to the action.
+     */
     private $middlewares = [];
 
     public function __construct($uri, $method, $response, array $middlewares = []) {

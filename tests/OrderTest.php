@@ -20,4 +20,21 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $response = $this->order->getResponse();
         $this->assertEquals(call_user_func($response), 'ok, this works');
     }
+
+    public function testGetMiddlewares() {
+        $middlewares = [
+            'before' => function() { return 'middleware1';},
+            'after' => function() { return 'middleware2';}
+        ];
+
+        $order = new Routify\Order(
+            '/route/for/something',
+            Routify\Method::POST,
+            function() { return 'ok'; },
+            $middlewares
+        );
+
+        $this->assertSame($middlewares, $order->getMiddlewares());
+        $this->assertEquals(2, count($order->getMiddlewares()));
+    }
 } 
