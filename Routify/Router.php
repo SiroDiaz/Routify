@@ -190,6 +190,17 @@ class Router {
     }
 
     /**
+     * Register the PATCH request.
+     *
+     * @param $uri
+     * @param $response
+     */
+
+    public function patch($uri, $response) {
+        $this->addOrder($uri, Method::PATCH, $response);
+    }
+
+    /**
      * Sets a callback for the notFound event.
      *
      * @param $func callable
