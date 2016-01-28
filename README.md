@@ -44,3 +44,7 @@ $router->delete('/:id', function($id) {
 
 $router->run();
 ```
+
+### Tests and submit code
+
+New features or modifications must be tested with **PHPUnit** previously to pull requests of new code.
