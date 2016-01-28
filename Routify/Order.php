@@ -29,6 +29,7 @@ class Order {
         $this->uri = $uri;
         $this->method = $method;
         $this->response = $response;
+        // must check if middlewares are valid
         $this->middlewares = $middlewares;
     }
 
@@ -70,5 +71,9 @@ class Order {
 
     public function getMiddlewares() {
         return $this->middlewares;
+    }
+
+    private function isValidMiddleware() {
+
     }
 }
