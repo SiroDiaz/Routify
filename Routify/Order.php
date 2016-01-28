@@ -20,10 +20,13 @@ class Order {
      */
     private $method;
 
-    public function __construct($uri, $method, $response) {
+    private $middlewares = [];
+
+    public function __construct($uri, $method, $response, array $middlewares = []) {
         $this->uri = $uri;
         $this->method = $method;
         $this->response = $response;
+        $this->middlewares = $middlewares;
     }
 
     /**
@@ -54,5 +57,15 @@ class Order {
 
     public function getResponse() {
         return $this->response;
+    }
+
+    /**
+     * Returns a list of middlewares registered.
+     *
+     * @return array
+     */
+
+    public function getMiddlewares() {
+        return $this->middlewares;
     }
 }
