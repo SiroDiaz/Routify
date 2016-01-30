@@ -234,10 +234,19 @@ class Router {
         }
 
         if($found) {
-            // todo if exists before middleware, execute it.
+            // run the before middleware if it exists
+            if($this->routes[$counter]->hasBefore()) {
+                call_user_func($this->routes[$counter]->getMiddlewares()['before']);
+            }
+
             $params = $this->routerParser->getParams($this->routes[$counter]->getUri());
             $response = call_user_func_array($this->routes[$counter]->getResponse(), $params);
-            // todo if exists after middleware, execute it.
+
+            // run the after middleware if it exists
+            if($this->routes[$counter]->hasAfter()) {
+                call_user_func($this->routes[$counter]->getMiddlewares()['after']);
+            }
+
             return $response;
         } else {
             return call_user_func($this->notFound);

@@ -23,11 +23,21 @@ Routify is a fast and flexible router for PHP 5.4 and higher.
 ```php
 require 'vendor/autoload.php';
 
-$router = new Routify/Router();
+$router = new Routify\Router();
+
+$middleware1 = function() {
+    echo "middleware 1";
+};
+
+$middleware2 = function() {
+    echo "middleware 2";
+};
 
 $router->get('/', function() {
-
-});
+        echo "This is an action";
+    },
+    ['before' => $middleware1, 'after' => $middleware2]
+);
 
 $router->get('/post/:slug/:id', function($slug, $id) {
 	echo "You are seeing the post nº $id, with title: $slug";
