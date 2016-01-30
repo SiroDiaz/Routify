@@ -27,7 +27,7 @@ class Order {
     private $middlewares = [];
 
     /**
-     * @var array
+     * @var array The types that are supported(for middlewares).
      */
     private $middlewareTypes = ['before', 'after'];
 
@@ -100,6 +100,9 @@ class Order {
     }
 
     /**
+     * Checks if middlewares passed as an associative array
+     * don't contain keys different to "before" and "after".
+     *
      * @return bool
      * @throws InvalidMiddlewareException
      */
