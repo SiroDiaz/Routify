@@ -2,6 +2,8 @@
 
 namespace Routify;
 
+use Routify\Exceptions;
+
 
 class Order {
 
@@ -24,6 +26,11 @@ class Order {
      * @var array Contains all middlewares associate to the action.
      */
     private $middlewares = [];
+
+    /**
+     * @var array
+     */
+    private $middlewareTypes = ['before', 'after'];
 
     public function __construct($uri, $method, $response, array $middlewares = []) {
         $this->uri = $uri;
@@ -73,7 +80,41 @@ class Order {
         return $this->middlewares;
     }
 
-    private function isValidMiddleware() {
+    /**
+     * Checks if the middleware contains before callback.
+     *
+     * @return bool
+     */
 
+    public function hasBefore() {
+        return array_key_exists('before', $this->middlewares);
+    }
+
+    /**
+     * Checks if the middleware contains after callback.
+     *
+     * @return bool
+     */
+
+    public function hasAfter() {
+        return array_key_exists('after', $this->middlewares);
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidMiddleware
+     */
+
+    private function isValidMiddleware() {
+        foreach($this->middlewares as $key => $value) {
+            if(!in_array($key, $this->middlewareTypes)) {
+                throw new InvalidMiddleware("Only before and after middleware types are valid");
+            }
+            if(!is_callable($value)) {
+                throw new InvalidMiddleware("The middleware must be callable");
+            }
+        }
+
+        return true;
     }
 }

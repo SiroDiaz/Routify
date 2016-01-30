@@ -234,8 +234,11 @@ class Router {
         }
 
         if($found) {
+            // todo if exists before middleware, execute it.
             $params = $this->routerParser->getParams($this->routes[$counter]->getUri());
-            return call_user_func_array($this->routes[$counter]->getResponse(), $params);
+            $response = call_user_func_array($this->routes[$counter]->getResponse(), $params);
+            // todo if exists after middleware, execute it.
+            return $response;
         } else {
             return call_user_func($this->notFound);
         }
