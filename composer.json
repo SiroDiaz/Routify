@@ -10,7 +10,6 @@
             "email": "siro_diaz@yahoo.com"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "Routify\\": "Routify"
