@@ -1,6 +1,7 @@
 Routify
 =======
 [![Build Status](https://travis-ci.org/SiroDiaz/Routify.svg)](https://travis-ci.org/SiroDiaz/Routify)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SiroDiaz/Routify/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SiroDiaz/Routify/?branch=master)
 
 A simple PHP router inspired in Express framework.
 
