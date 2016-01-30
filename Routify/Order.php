@@ -2,8 +2,7 @@
 
 namespace Routify;
 
-use Routify\Exceptions;
-
+use Routify\Exceptions\InvalidMiddlewareException;
 
 class Order {
 
@@ -102,16 +101,16 @@ class Order {
 
     /**
      * @return bool
-     * @throws InvalidMiddleware
+     * @throws InvalidMiddlewareException
      */
 
     private function isValidMiddleware() {
         foreach($this->middlewares as $key => $value) {
             if(!in_array($key, $this->middlewareTypes)) {
-                throw new InvalidMiddleware("Only before and after middleware types are valid");
+                throw new InvalidMiddlewareException("Only before and after middleware types are valid");
             }
             if(!is_callable($value)) {
-                throw new InvalidMiddleware("The middleware must be callable");
+                throw new InvalidMiddlewareException("The middleware must be callable");
             }
         }
 
