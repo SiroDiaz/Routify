@@ -35,8 +35,9 @@ class Order {
         $this->uri = $uri;
         $this->method = $method;
         $this->response = $response;
-        // must check if middlewares are valid
-        $this->middlewares = $middlewares;
+        if($this->isValidMiddleware($middlewares)) {
+            $this->middlewares = $middlewares;
+        }
     }
 
     /**
@@ -103,12 +104,19 @@ class Order {
      * Checks if middlewares passed as an associative array
      * don't contain keys different to "before" and "after".
      *
+     * @param array $middleware The associative array containing
+     *          middleware callbacks.
      * @return bool
      * @throws InvalidMiddlewareException
      */
 
-    private function isValidMiddleware() {
-        foreach($this->middlewares as $key => $value) {
+    private function isValidMiddleware($middleware) {
+        // if there is not middlewares then it is valid
+        if(count($middleware) === 0) {
+            return true;
+        }
+
+        foreach($middleware as $key => $value) {
             if(!in_array($key, $this->middlewareTypes)) {
                 throw new InvalidMiddlewareException("Only before and after middleware types are valid");
             }
