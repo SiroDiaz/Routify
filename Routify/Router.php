@@ -221,6 +221,14 @@ class Router {
         }
     }
 
+    public function any($uri, $response, array $middleware = []) {
+        $this->addRoute($uri, Method::GET, $response, $middleware);
+        $this->addRoute($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::PUT, $response, $middleware);
+        $this->addRoute($uri, Method::DELETE, $response, $middleware);
+        $this->addRoute($uri, Method::PATCH, $response, $middleware);
+    }
+
     /**
      * Sets a callback for the notFound event.
      *

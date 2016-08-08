@@ -50,6 +50,22 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($this->router->run(), 'OK');
     }
 
+    public function testAny() {
+        $this->router->clear();
+        $this->router->any('/', function() { return 'OK'; });
+        $this->router->setPath('/');
+        $this->router->setRequestMethod(Method::GET);
+        $this->assertSame($this->router->run(), 'OK');
+        $this->router->setRequestMethod(Method::POST);
+        $this->assertSame($this->router->run(), 'OK');
+        $this->router->setRequestMethod(Method::PUT);
+        $this->assertSame($this->router->run(), 'OK');
+        $this->router->setRequestMethod(Method::DELETE);
+        $this->assertSame($this->router->run(), 'OK');
+        $this->router->setRequestMethod(Method::PATCH);
+        $this->assertSame($this->router->run(), 'OK');
+    }
+
     public function testRun() {
         $this->router->setPath('/');
         $this->router->get('/', function() { return 'ok, this works'; });
