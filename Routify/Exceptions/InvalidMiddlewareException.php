@@ -2,6 +2,6 @@
 
 namespace Routify\Exceptions;
 
-class InvalidMiddleware extends \Execption {
-
+class InvalidMiddleware extends \Exception {
+    
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Routify\Method;
 
 class RouterTest extends PHPUnit_Framework_TestCase {
 
@@ -16,7 +17,6 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetRequestMethod() {
-
         $this->assertEquals($this->router->getRequestMethod(), $_SERVER['REQUEST_METHOD']);
     }
 
@@ -40,6 +40,14 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         // testing that a new route is registered
         $this->router->get('/api/v1', function() {});
         $this->assertEquals(count($this->router->getRoutes()), 2);
+    }
+    
+    public function testBoth() {
+        $this->router->clear();
+        $this->router->both('/', function() { return 'OK'; }, ['GET', 'PUT']);
+        $this->router->setRequestMethod('PUT');
+        $this->router->setPath('/');
+        $this->assertSame($this->router->run(), 'OK');
     }
 
     public function testRun() {

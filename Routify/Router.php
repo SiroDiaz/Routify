@@ -109,7 +109,7 @@ class Router {
         }
 
         while($found === false && $counter < count($this->routes)) {
-            if ($this->routes[$counter]->getUri() === $uri && $this->routes[$counter]->getMethod() === $method) {
+            if($this->routes[$counter]->getUri() === $uri && $this->routes[$counter]->getMethod() === $method) {
                 $found = true;
             }
 
@@ -128,13 +128,14 @@ class Router {
      * @return bool false if the route has not been added.
      */
 
-    private function addOrder($uri, $method, $response, array $middleware = []) {
+    private function addRoute($uri, $method, $response, array $middleware = []) {
         if($this->find($uri, $method)) {    // search if exists an apparition
             return false;
         }
 
         $totalRoutes = count($this->routes);
         $this->routes[$totalRoutes] = new Order($uri, $method, $response, $middleware);
+        return true;
     }
 
     /**
@@ -142,6 +143,7 @@ class Router {
      */
 
     public function clear() {
+        // unset($this->routes);
         $this->routes = [];
     }
 
@@ -153,7 +155,7 @@ class Router {
      */
 
     public function get($uri, $response, array $middleware = []) {
-        $this->addOrder($uri, Method::GET, $response, $middleware);
+        $this->addRoute($uri, Method::GET, $response, $middleware);
     }
 
     /**
@@ -164,7 +166,7 @@ class Router {
      */
 
     public function post($uri, $response, array $middleware = []) {
-        $this->addOrder($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::POST, $response, $middleware);
     }
 
     /**
@@ -175,29 +177,48 @@ class Router {
      */
 
     public function put($uri, $response, array $middleware = []) {
-        $this->addOrder($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::POST, $response, $middleware);
     }
 
     /**
      * Register the DELETE request.
      *
-     * @param $uri
-     * @param $response
+     * @param $uri string The path requested
+     * @param $response callable Action to response
      */
 
     public function delete($uri, $response, array $middleware = []) {
-        $this->addOrder($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::POST, $response, $middleware);
     }
 
     /**
      * Register the PATCH request.
      *
-     * @param $uri
-     * @param $response
+     * @param $uri string The path requested
+     * @param $response callable Action to response
      */
 
     public function patch($uri, $response, array $middleware = []) {
-        $this->addOrder($uri, Method::PATCH, $response, $middleware);
+        $this->addRoute($uri, Method::PATCH, $response, $middleware);
+    }
+
+    /**
+     * Register one or more requests for the same uri.
+     *
+     * @param $uri string The path requested
+     * @param $response callable Action to response
+     * @param $methods mixed Methods to bind. Optional. GET by default
+     * @param $middleware array Middlewares before and after. Optional
+     */
+
+    public function both($uri, $response, $methods = Method::GET, array $middleware = []) {
+        if(is_array($methods)) {
+            foreach($methods as $method) {
+                $this->addRoute($uri, $method, $response, $middleware);
+            }
+        } else {
+            $this->addRoute($uri, $methods, $response, $middleware);
+        }
     }
 
     /**
