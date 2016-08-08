@@ -50,6 +50,12 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($this->router->run(), 'OK');
     }
 
+    public function testDispatch() {
+        $this->router->dispatch(Method::GET, '/example');
+        $this->assertEquals($this->router->getRequestMethod(), 'GET');
+        $this->assertEquals($this->router->getPath(), '/example');
+    }
+
     public function testAny() {
         $this->router->clear();
         $this->router->any('/', function() { return 'OK'; });
@@ -64,6 +70,13 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($this->router->run(), 'OK');
         $this->router->setRequestMethod(Method::PATCH);
         $this->assertSame($this->router->run(), 'OK');
+    }
+
+    public function testParams() {
+        $this->router->clear();
+        $this->router->get('/:name', function($name) { return $name; });
+        $this->router->dispatch(Method::GET, '/john');
+        $this->assertEquals($this->router->run(), 'john');
     }
 
     public function testRun() {

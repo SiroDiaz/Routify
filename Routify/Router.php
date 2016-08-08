@@ -79,6 +79,7 @@ class Router {
 
     public function setPath($path) {
         $this->path = $path;
+        $this->routerParser = new RouterParser($this->path);
     }
 
     /**
@@ -89,6 +90,18 @@ class Router {
 
     public function setRequestMethod($method) {
         $this->requestMethod = $method;
+    }
+
+    /**
+     * Dispatch to the route set.
+     *
+     * @param $method string Method to dispatch
+     * @param $path string Path to dispatch
+     */
+
+    public function dispatch($method, $path) {
+        $this->setRequestMethod($method);
+        $this->setPath($path);
     }
 
     /**
@@ -143,7 +156,6 @@ class Router {
      */
 
     public function clear() {
-        // unset($this->routes);
         $this->routes = [];
     }
 
@@ -177,7 +189,7 @@ class Router {
      */
 
     public function put($uri, $response, array $middleware = []) {
-        $this->addRoute($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::PUT, $response, $middleware);
     }
 
     /**
@@ -188,7 +200,7 @@ class Router {
      */
 
     public function delete($uri, $response, array $middleware = []) {
-        $this->addRoute($uri, Method::POST, $response, $middleware);
+        $this->addRoute($uri, Method::DELETE, $response, $middleware);
     }
 
     /**
@@ -220,6 +232,10 @@ class Router {
             $this->addRoute($uri, $methods, $response, $middleware);
         }
     }
+
+    /**
+     *
+     */
 
     public function any($uri, $response, array $middleware = []) {
         $this->addRoute($uri, Method::GET, $response, $middleware);
