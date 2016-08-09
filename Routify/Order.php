@@ -7,6 +7,11 @@ use Routify\Exceptions\InvalidMiddlewareException;
 class Order {
 
     /**
+     * @var string Name of the route
+     */
+    private $name;
+
+    /**
      * @var string The path pattern.
      */
     private $uri;

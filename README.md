@@ -55,6 +55,19 @@ $router->delete('/:id', function($id) {
 	// something for the DELETE /:id
 });
 
+$router->both('/hello/world', function() {
+    // something for GET and POST requests
+}, ['GET', 'POST']);
+
+$router->any('/bye', function() {
+    // something for any request method
+}, ['before' => $middleware1, 'after' => $middleware2]);
+
+// regular expression route
+$router->get('/(login|logout), function() {
+    // response for the login or logout route requested
+});
+
 $router->run();
 ```
 
