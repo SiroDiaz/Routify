@@ -153,30 +153,32 @@ class Router {
     }
 
     /**
-     * Get all request headers
+     * Get all request headers.
      *
      * @return array The request headers
      */
-    public function getRequestHeaders() {
+    private function getRequestHeaders() {
         // If getallheaders() is available, use that
         if(function_exists('getallheaders')) {
             return getallheaders();
         }
         // Method getallheaders() not available: manually extract 'm
         $headers = [];
-        foreach($_SERVER as $key => $value) {
+        foreach(filter_input_array(INPUT_SERVER) as $key => $value) {
             if((substr($key, 0, 5) == 'HTTP_') || ($key == 'CONTENT_TYPE') || ($key == 'CONTENT_LENGTH')) {
                 $headers[str_replace([' ', 'Http'], ['-', 'HTTP'], ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))))] = $value;
             }
         }
+
         return $headers;
     }
 
     /**
+     * Get the request method used, taking overrides into account.
      *
      */
 
-    public function overrideMethod() {
+    private function overrideMethod() {
         if($this->requestMethod === 'HEAD') {
             $this->requestMethod = 'GET';
         } elseif($this->requestMethod === 'POST' && filter_input(INPUT_POST, '_method') !== null) {
