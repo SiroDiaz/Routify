@@ -42,7 +42,7 @@ class Order {
      */
     private $availableRequestMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 
-    public function __construct($uri, $method, $response, array $middlewares = []) {
+    public function __construct($uri, $method, $response, array $middlewares = [], $name = '') {
         $this->uri = $uri;
         if(!in_array(mb_strtoupper($method), $this->availableRequestMethods)) {
             throw new MethodException("The request method is invalid");
@@ -52,6 +52,17 @@ class Order {
         if($this->isValidMiddleware($middlewares)) {
             $this->middlewares = $middlewares;
         }
+        $this->name = $name;
+    }
+
+    /**
+     * Returns the route name.
+     *
+     * @return string
+     */
+
+    public function getName() {
+        return $this->name;
     }
 
     /**
