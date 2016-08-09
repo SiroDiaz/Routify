@@ -1,11 +1,47 @@
 <?php
 
+use Routify\Order;
+use Routify\Exceptions\MethodException;
+use Routify\Exceptions\InvalidMiddlewareException;
+
 class OrderTest extends PHPUnit_Framework_TestCase {
     private $order;
 
     public function __construct() {
         parent::__construct();
         $this->order = new Routify\Order('/', Routify\Method::GET, function() { return 'ok, this works'; });
+    }
+
+    public function testMethodException() {
+        try {
+            $router = new Order('/', 'METHOD', function() { return 1; });
+        } catch(\Exception $e) {
+            $this->assertTrue($e instanceof MethodException);
+        }
+    }
+
+    public function testInvalidMiddlewareException() {
+        try {
+            $router = new Order(
+                '/',
+                'GET',
+                function() { return 1; },
+                ['initialize' => function() { return 0; }]
+            );
+        } catch(\Exception $e) {
+            $this->assertTrue($e instanceof InvalidMiddlewareException);
+        }
+
+        try {
+            $router = new Order(
+                '/',
+                'GET',
+                function() { return 1; },
+                ['before' => 1]
+            );
+        } catch(\Exception $e) {
+            $this->assertTrue($e instanceof InvalidMiddlewareException);
+        }
     }
 
     public function testGetUri() {

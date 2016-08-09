@@ -3,6 +3,7 @@
 namespace Routify;
 
 use Routify\Exceptions\InvalidMiddlewareException;
+use Routify\Exceptions\MethodException;
 
 class Order {
 
@@ -36,8 +37,16 @@ class Order {
      */
     private $middlewareTypes = ['before', 'after'];
 
+    /**
+     * @var array request methods availables.
+     */
+    private $availableRequestMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
+
     public function __construct($uri, $method, $response, array $middlewares = []) {
         $this->uri = $uri;
+        if(!in_array(mb_strtoupper($method), $this->availableRequestMethods)) {
+            throw new MethodException("The request method is invalid");
+        }
         $this->method = $method;
         $this->response = $response;
         if($this->isValidMiddleware($middlewares)) {
