@@ -179,8 +179,8 @@ class Router {
     public function overrideMethod() {
         if($this->requestMethod === 'HEAD') {
             $this->requestMethod = 'GET';
-        } elseif($this->requestMethod === 'POST' && isset($_POST['_method'])) {
-            $this->requestMethod = $_POST['_method'];
+        } elseif($this->requestMethod === 'POST' && filter_input(INPUT_POST, '_method') !== null) {
+            $this->requestMethod = filter_input(INPUT_POST, '_method');
         } elseif($this->requestMethod === 'POST') {
             $headers = $this->getRequestHeaders();
             if(isset($headers['X-HTTP-Method-Override']) && in_array($headers['X-HTTP-Method-Override'], ['PUT', 'DELETE', 'PATCH'])) {
