@@ -42,7 +42,7 @@ class Order {
      */
     private $availableRequestMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 
-    public function __construct($uri, $method, $response, array $middlewares = [], $name = '') {
+    public function __construct($uri, $method, $response, array $middlewares = [], $name = null) {
         $this->uri = $uri;
         if(!in_array(mb_strtoupper($method), $this->availableRequestMethods)) {
             throw new MethodException("The request method is invalid");

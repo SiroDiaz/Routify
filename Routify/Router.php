@@ -37,6 +37,7 @@ class Router {
             rawurldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) : '/';
         $this->routerParser = new RouterParser($this->path);
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
+        $this->overrideMethod();
 
         $this->notFound = function() {};
     }
@@ -149,6 +150,43 @@ class Router {
         $totalRoutes = count($this->routes);
         $this->routes[$totalRoutes] = new Order($uri, $method, $response, $middleware);
         return true;
+    }
+
+    /**
+     * Get all request headers
+     *
+     * @return array The request headers
+     */
+    public function getRequestHeaders() {
+        // If getallheaders() is available, use that
+        if(function_exists('getallheaders')) {
+            return getallheaders();
+        }
+        // Method getallheaders() not available: manually extract 'm
+        $headers = [];
+        foreach($_SERVER as $key => $value) {
+            if((substr($key, 0, 5) == 'HTTP_') || ($key == 'CONTENT_TYPE') || ($key == 'CONTENT_LENGTH')) {
+                $headers[str_replace([' ', 'Http'], ['-', 'HTTP'], ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
+
+    /**
+     *
+     */
+
+    public function overrideMethod() {
+        if($this->requestMethod === 'HEAD') {
+            $this->requestMethod = 'GET';
+        } elseif($this->requestMethod === 'POST' && isset($_POST['_method'])) {
+            $this->requestMethod = $_POST['_method'];
+        } elseif($this->requestMethod === 'POST') {
+            $headers = $this->getRequestHeaders();
+            if(isset($headers['X-HTTP-Method-Override']) && in_array($headers['X-HTTP-Method-Override'], ['PUT', 'DELETE', 'PATCH'])) {
+                $this->requestMethod = $headers['X-HTTP-Method-Override'];
+            }
+        }
     }
 
     /**
